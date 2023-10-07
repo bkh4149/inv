@@ -48,7 +48,6 @@ class disp():
 
     #得点や砲台残り表示
     def dbg(self,mm):
-        #mm="Point="+str(self.point)+"   砲台="+str(left_ply)+"  invader "+str(left_inv)
         tm = self.mf.render(mm, False,(0,0,0))
         sc.blit(tm,(450,70)) 
 
@@ -65,10 +64,6 @@ class invader():
 
         self.xrlim=700   #折り返す右端
         self.xllim=100   #
-
-        # self.left_inv=0
-        # self.min=0
-        # self.max=0
 
         #インべーダ行列の位置
         self.xinv=102
@@ -134,7 +129,6 @@ class invader():
         #インベーダーの総数をカウント
         self.left_inv=self.chknum()
 
-    
     #インベーダー行列の描画　（インベーダ行列tb_inv　にしたがって1なら描画
     def drawinvaders(self):
       for y in range (4):#横5行
@@ -162,9 +156,7 @@ class invader():
 
     def chklen(self):
     #インベーダの全体の長さの計測　
-        #xl_inv=70*8
         sum=[0]*8
-    
         for tx in range(8):
             for ty in range(4):
                 sum[tx] +=tb_inv[ty][tx]
@@ -321,10 +313,8 @@ class agm(disp):#()内は引数じゃなくて親クラス　dispクラスのメ
                     iy=int(dy/20)
 
                     if tb_shl[tk][iy][ix] ==1: #真のあたり
- 
                         tb_shl[tk][iy][ix] =0
                         fh_agm_shl=1
-                        #import pdb;pdb.set_trace() #debug
         return fh_agm_shl
 
     #agmがインベーダーと当たっているかチェック
@@ -344,7 +334,6 @@ class agm(disp):#()内は引数じゃなくて親クラス　dispクラスのメ
                             tb_inv[iy][ix] =0
                             fh_agm_inv=1
                             fpt=4-iy
-                    #import pdb;pdb.set_trace() #debug
         return fh_agm_inv,fpt
 
     #agmがボスと当たっているかチェック
@@ -374,7 +363,6 @@ class shelter():
             for tx in range(5): #0,1,2,3,4
                ttx=120+tk*150
                tty=350
-               #tr=random.randint(0,10)
                if tb_shl[tk][ty][tx]==1:
                    #シェルター描画　レンガ１つ分
                    sc.blit(self.gsh1 ,Rect(ttx+tx*20,tty+ty*20,20,20))
@@ -395,12 +383,10 @@ class shelter():
                        else:
                            sc.blit(self.gsh4 ,Rect(ttx+tx*20,tty+ty*20,20,20))
 
-
 #sgmミサイル
 class sgm():
     #sgmミサイル　　　　　20x50
     gsgm = pygame.image.load("img/oti.png").convert_alpha()
-
     #sgmミサイルのフラグ、1飛んでいる 0ぶつかった
     fsgm=0
     #位置
@@ -480,9 +466,7 @@ class flag():
 class boss():
     gbs1 = pygame.image.load("img/boss1.png").convert_alpha()#boss　　50x50
     gbs2 = pygame.image.load("img/boss2.png").convert_alpha()#boss２　50x50
-
     xboss=0
-    
     yboss=0
     fboss=0
     vboss=0
@@ -507,8 +491,6 @@ class boss():
             self.fboss=0
         else:
             rboss=0
-            #self.fboss=1
-
         return rboss
 
     #ボスの描画（メモリ書き込み）
@@ -521,8 +503,6 @@ class boss():
         #描画（メモリ書き込み）
         if self.anm_boss==1:
             sc.blit(self.gbs1, Rect(self.xboss,self.yboss,50,50))
-            #sd_heli.play()
-
         else:
             sc.blit(self.gbs2, Rect(self.xboss,self.yboss,50,50))
 
@@ -560,14 +540,12 @@ def del_sgm(sg,pl):
 
 #ボスの処理
 def bossmain(bs):
-
     r1=random.random()
     #boss発生　0.5%の確率で
     if r1<0.005  and bs.fboss==0:
         bs.fboss=1 #発生ならフラグ１
         r2=random.random()#右から出るか左から出るか
         r3=random.randint(2,7)#ボスのスピードを決定
-
         if r2<0.5 :
             tx=700 #左端からスタート
             bs.vboss=r3*-1 #ボスのスピード
@@ -575,7 +553,6 @@ def bossmain(bs):
             tx=0   #右端からスタート
             bs.vboss=r3 #ボスのスピード
         bs.start(tx) #ボス 初期設定
-
     if bs.fboss==1:
         rboss=bs.calcboss() #位置計算と描画
         #端っこまで移動してならrboss=1で戻る
@@ -587,18 +564,14 @@ def saisyu_hantei(iv,pl,ck):
         sc.fill(( 0, 0,255))
         #勝ち表示
         mm="YOU ARE WINNER!!"
-        
         tm = mf2.render(mm, False,(0,0,0))
         sc.blit(tm,(200,100))
-
-    
     if pl.left_ply == 0: #砲台が0か
         sc.fill(( 255, 0,0))
         #負け表示
         mm="情けない、負けたーー！"
         tm = mf2.render(mm, False,(0,0,0))
         sc.blit(tm,(200,100))
-
     pygame.display.update()
     ck.tick(0.5) #５秒停止
     pygame.display.update()
@@ -609,44 +582,34 @@ def tikatika(ck):
         ck.tick(10) 
         pygame.display.update()
         sc.fill(( 0, 0,0))
-
         ck.tick(10) 
         pygame.display.update()
         sc.fill(( 255, 255, 255))
 
-
 #ここからメイン
 def main():
     ck = pygame.time.Clock()
-
     #インスタンス化
     dp=disp()
     sh=shelter()
     iv=invader()
     pl=player()
     bs=boss()
-
     #クラス用の配列準備
     sg=[]#下げミサイルのインスタンスが入る配列：コンストラクタはここでは呼んでいない
-
     while True:#砲台1つ分のループ
         #砲台リスタート
         pl.res_player()
-
         #コミュニケーションflag
         fh_sgm_ply=0 	#sgm ミサイルが砲台にhitか　　
         fl=flag()# フラグまとめクラス　xagm,yagm,fsgm=0,fagm,f1agm=0
-
         while True:#1画面分　1フレーム
             #1フレームの時間測定　16msec以内ならOK
             start = time.time() 
-
             #画面クリア
             sc.fill(( 255, 255, 255))
-
             #invader
             iv.calcinvader()
-
             #plyer()
             fl=pl.calcplayer(fl)
             if fl.f1agm==1:  #fagm との違いに注意！
@@ -656,42 +619,32 @@ def main():
                 ag=agm(fl)   #agm発生　コンストラクタ
                 fl.f1agm=0   #f1agmはスペースキーが押された瞬間だけ１なのですぐ戻す
                 fl.fagm=1    #fagmはミサイルが上がっている間１
-	    
             #sgm
             gen_sgm(sg,iv)
             fh_sgm_ply=del_sgm(sg,pl)
-
             #shelter
             sh.drawshelters()
-
             #boss
             bossmain(bs)
-
             #agm()
             if fl.fagm==1:
                 fl,dp.point=ag.calcagm(fl,iv.xinv,iv.yinv,bs,dp.point)
-
             #ブレーク処理
             if fh_sgm_ply==1 or iv.left_inv==0:
                 break
-
             #得点などの描画
             dp.drawpoint(pl.left_ply,iv.left_inv)
-
             #Gメモリ表示
             pygame.display.update()
             ck.tick(30) #毎秒30フレーム
-
             #1フレームの時間表示　デバッグ用
             #elapsed_time =( time.time() - start)*1000
             #print ("elapsed_time:{0}".format(elapsed_time) + "[msec]")
-
         #----while True:１フレームの最後ここまで---
 
         #インベーダーの残りがゼロならばもう一回抜ける
         if iv.left_inv==0:
             break
-
         #そうでなければやられたときの画面チカチカ
         sd_bomb.play()
         tikatika(ck)
