@@ -16,7 +16,7 @@ mf = pygame.font.Font(msgothic, 24)
 mf2= pygame.font.Font(msgothic, 48)
 
 # サウンドをロード
-sd_hit = pygame.mixer.Sound("snd/psh.wav")
+sd_hit = pygame.mixer.Sound("snd/sogeki.mp3")
 sd_heli = pygame.mixer.Sound("snd/shot.wav")
 sd_bomb = pygame.mixer.Sound("snd/bomb.wav")
 sd_hue = pygame.mixer.Sound("snd/hue.wav")
@@ -482,6 +482,7 @@ class boss():
     gbs2 = pygame.image.load("img/boss2.png").convert_alpha()#boss２　50x50
 
     xboss=0
+    
     yboss=0
     fboss=0
     vboss=0
@@ -581,8 +582,6 @@ def bossmain(bs):
         if rboss==1:
             bs.fboss=0
 
-
-
 def saisyu_hantei(iv,pl,ck):
     if iv.left_inv==0: #インベーダーを全部やっつけたか
         sc.fill(( 0, 0,255))
@@ -596,7 +595,7 @@ def saisyu_hantei(iv,pl,ck):
     if pl.left_ply == 0: #砲台が0か
         sc.fill(( 255, 0,0))
         #負け表示
-        mm="情けない、負けてしまうとは！"
+        mm="情けない、負けたーー！"
         tm = mf2.render(mm, False,(0,0,0))
         sc.blit(tm,(200,100))
 
